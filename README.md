@@ -16,11 +16,8 @@ We like PSR2
 If any of the following are applicable to your project, then the directory structure should follow industry best practises by being named the following.
 
 ```
-bin/        
 config/
 src/
-tests/
-vendor/
 ```
 
 
@@ -29,14 +26,46 @@ vendor/
 Via Composer
 
 ``` bash
-$ composer require elasticorange/zenyatta
+$ composer require elasticorange/zenyatta:dev-master
 ```
 
 ## Usage
 
+Add the provider in `config/app.php`
+
 ``` php
-$skeleton = new ElasticOrange\Zenyatta();
-echo $skeleton->echoPhrase('Hello, League!');
+'providers' => [
+    [...]
+    
+    // Zenyatta interface for Neo4j
+    ElasticOrange\Zenyatta\ZenyattaServiceProvider::class,
+```
+
+And the alias for good measure
+
+``` php
+'aliases' => [
+    [...]
+    
+    // Zenyatta interface for Neo4j alias
+    'Zenyatta' => ElasticOrange\Zenyatta\Zenyatta::class,
+```
+
+Publish the config file
+``` bash
+$ php artisan vendor:publish --tag=config
+```
+
+Add your environment variables in your `.env` file. Check the published config file for the variable names.
+
+After that you can use it in your beautiful application
+
+``` php
+use Zenyatta;
+[...]
+
+$z = new Zenyatta();
+$r = $z->getQuery("MATCH (n) RETURN n LIMIT 10");
 ```
 
 ## Change log
@@ -59,7 +88,7 @@ If you discover any security related issues, please email daniel@elasticorange.c
 
 ## Credits
 
-- [Daniel Luca][link-author]
+- [Daniel Luca][https://github.com/hydrarulz]
 - [All Contributors][link-contributors]
 
 ## License

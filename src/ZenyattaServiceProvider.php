@@ -15,7 +15,7 @@ class ZenyattaServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/zenyatta.php' => config_path('zenyatta.php')
-        ]);
+        ], 'config');
     }
 
     /**
